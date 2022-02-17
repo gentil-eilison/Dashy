@@ -1,0 +1,83 @@
+#loginForm  {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    form {
+        width: 40%;
+    
+        header {
+            font-family: 'Source Sans Pro', sans-serif;
+
+            img {
+                margin: auto;
+            }
+
+            h1 {
+                color: #595F6E;
+                text-align: center;
+    
+                padding-top: 4rem;
+            }
+        }
+        
+        #checkbox-group {
+            margin-top: 1rem;
+
+           display: flex;
+            
+            label {
+                color: #4D4F5C;
+                font-family: 'Roboto', sans-serif;
+                
+                margin-left: 0.5rem;
+            }
+
+            input[type="checkbox"] {
+                // appearance: none;
+                // -webkit-appearance: none;
+                height: 1.5625rem;
+                width: 1.5625rem;
+                background-color: white;
+                border: 1px solid #595F6E;
+                border-radius: 0.5rem;
+                cursor: pointer;
+            }
+        }
+    }
+
+
+}
+
+.form-footer {
+    font-family: 'Roboto', sans-serif;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        background-color: #558B2F;
+        color: #FFF;
+        font-family: 'Source Sans Pro', sans-serif;
+        text-align: center;
+
+        width: 89%;
+        padding: 0.4375rem 6.25rem;
+        border-radius: 1.375rem;
+
+        transition: background-color 200ms;
+
+        cursor: pointer;
+
+        &:hover {
+            background-color: #5f9b34;
+        }
+    }
+
+    a {
+        color: #558B2F;
+        text-decoration: underline;
+    }
+}
