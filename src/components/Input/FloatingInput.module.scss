@@ -1,15 +1,17 @@
 .formGroup {
-    margin-top: 2rem;
+    margin-top: 0.5rem;
+    // border: 2px solid black;
 
     .floatingLabel {
         font-family: 'Source Sans Pro', sans-serif;
         color: #595F6E;
         cursor: text;
 
-        position: absolute;
-        transform: translateX(-32.5rem) translateY(0.3125rem);
+        position: relative;
+        bottom: 2rem;
+        left: 1rem;
         transition: 
-            transform 200ms ease-in
+            bottom 200ms ease-in
             font-size 200ms ease-in
             background-color 200ms ease-in
             color 200ms ease-in;
@@ -35,7 +37,7 @@
 
     .floatingInput:focus + .floatingLabel, 
     .floatingInput:not(:placeholder-shown).floatingInput:not(:focus) + .floatingLabel {
-        transform: translateX(-32.5rem) translateY(-0.75rem);
+        bottom: 3.1rem;
         color: #558B2F;
         background-color: white;
         font-size: 0.8rem;

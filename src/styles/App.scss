@@ -1,3 +1,21 @@
+#left-strip {
+    height: 200px;
+    width: 166.15px;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+#right-strip {
+    height: 170px;
+    width: 204.62px;
+    align-self: flex-end;
+}
+
+main {
+    height: 100vh;
+    display: flex;
+}
+
 #loginForm  {
     display: flex;
     justify-content: center;
@@ -5,12 +23,17 @@
 
     form {
         width: 40%;
+        height: fit-content;
+        align-self: center;
     
         header {
             font-family: 'Source Sans Pro', sans-serif;
+            margin-bottom: 2.5rem;
 
             img {
                 margin: auto;
+                width: 100px;
+                height: 100px;
             }
 
             h1 {
@@ -24,7 +47,7 @@
         #checkbox-group {
             margin-top: 1rem;
 
-           display: flex;
+            display: flex;
             
             label {
                 color: #4D4F5C;
@@ -63,7 +86,7 @@
         font-family: 'Source Sans Pro', sans-serif;
         text-align: center;
 
-        width: 89%;
+        width: 25vw;
         padding: 0.4375rem 6.25rem;
         border-radius: 1.375rem;
 

@@ -10,7 +10,11 @@ import '../styles/App.scss'
 function App() {
   return (
     <main>
-        <img src={leftGreenPiece} alt="Green left component ice-cream shaped" className="float-left" />
+        <img 
+          src={leftGreenPiece} 
+          alt="Green left component ice-cream shaped" 
+          className="float-left" 
+          id="left-strip"/>
 
         <article id="loginForm">
           <form action="/login" method="POST">
@@ -34,7 +38,11 @@ function App() {
           </form>
         </article>
 
-        <img src={rightGreenPiece} alt="Green component ice-cream shaped" className="float-right"/>
+        <img 
+          src={rightGreenPiece} 
+          alt="Green component ice-cream shaped" 
+          className="float-right"
+          id="right-strip"/>
     </main>
   );
 }
