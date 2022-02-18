@@ -1,0 +1,54 @@
+.arrow_box {
+    position: absolute;
+    background: #333333;
+    border-radius: 8px;
+    padding: 20px;
+    width: 17vw;
+
+    hr {
+        width: 100%;
+    }
+
+    .toolNumber {
+        font-size: 1.2rem;
+    }
+
+    .toolLabel {
+        font-size: 1rem;
+        margin-bottom: 1.3rem;
+    }
+}
+
+.arrow_box:after, .arrow_box:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+.arrow_box:before {
+    position: absolute;
+    border-color: rgba(0, 0, 0, 0);
+    border-right-color: #333333;
+    border-width: 8.5px;
+    margin-top: -13px;
+    transform: translateX(180px) translateY(79px) rotate(-90deg);
+}
+
+.apexcharts-tooltip {
+    position: absolute;
+    color: #fff;
+    transform: translateX(-170px) translateY(-160px);
+    overflow: visible !important;
+    white-space: normal !important;
+    font-family: 'Source Sans Pro', sans-serif; 
+
+    span {
+    padding: 5px 10px;
+    display: inline-block;
+    }
+}
