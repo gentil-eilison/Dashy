@@ -1,7 +1,15 @@
+/**
+ * Component for creating inputs containing floating labels 
+ */
+
 import React from 'react'
 
 import styles from './FloatingInput.module.scss'
 
+/**
+ * Children property is needed in order to automatically output label text
+ * Name prop. is used when sending data to the back-end
+ */
 type InputData = {
     type: string 
     value?: string

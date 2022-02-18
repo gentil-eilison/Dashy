@@ -19,3 +19,4 @@ const AuthProvider = (props: AuthProviderData) => {
 }
 
 export default AuthProvider
+export const useAuth = () => AuthProvider
