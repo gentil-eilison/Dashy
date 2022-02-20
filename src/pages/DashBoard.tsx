@@ -12,51 +12,57 @@ import headerStrip from '../assets/images/headerStrip.svg'
 
 const DashBoard = () => {
     return (
-        <>
-        <aside>
-            <header>
-                <img src={headerStrip} alt="Top header green strip" />
-            </header>
-            <nav>
-                <section id="mainNavigation">
-                    <ul>
-                        <li>
-                            <NavItem 
-                                alt='Dashboard menu item'
-                                path='/dashboard'
-                                src={dashboardIcon}
+        <div id="dashContent">
+            <aside>
+                <header>
+                    <img src={headerStrip} alt="Top header green strip" />
+                </header>
+                <nav>
+                    <section id="mainNavigation">
+                        <ul>
+                            <li>
+                                <NavItem
+                                    alt='Dashboard menu item'
+                                    path='/dashboard'
+                                    src={dashboardIcon}
                                 >Dashboard</NavItem>
-                        </li>
-                    </ul>
-                </section>
+                            </li>
+                        </ul>
+                    </section>
 
-                <section id="programmer">
-                    <header>
-                        <span>PROGRAMADOR</span>
-                    </header>
-                    <p>Edgar Marques</p>
-                    <ul>
-                        <li>
-                            <NavItem
-                                alt='Exit platform icon'
-                                src={exitIcon}
-                                path='/'
+                    <section id="programmer">
+                        <header>
+                            <span>PROGRAMADOR</span>
+                        </header>
+                        <p>Edgar Marques</p>
+                        <ul>
+                            <li>
+                                <NavItem
+                                    alt='Exit platform icon'
+                                    src={exitIcon}
+                                    path='/'
                                 >Sair</NavItem>
-                        </li>
-                    </ul>
-                </section>
-            </nav>
+                            </li>
+                        </ul>
+                    </section>
+                </nav>
+                <footer>
+                    <img src={footerStrip} alt="Bottom navigation green strip" />
+                    <div>Uma plataforma <p>NEW WAVE</p></div>
+                </footer>
+            </aside>
 
-            <footer>
-                <img src={footerStrip} alt="Bottom navigation green strip" />
-                <div>Uma plataforma <p>NEW WAVE</p></div>
-            </footer>
-        </aside>
-
-        <main>
-
-        </main>
-        </>
+            <main>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dummy</th>
+                            <th>Dummy2</th>
+                        </tr>
+                    </thead>
+                </table>
+            </main>
+        </div>
     )
 }
 

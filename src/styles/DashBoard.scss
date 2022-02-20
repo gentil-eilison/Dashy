@@ -1,4 +1,5 @@
-body { 
+#dashContent { 
+    height: 100vh;
     display: grid;
     grid-template-columns: 10rem 1fr;
     grid-template-areas: 
@@ -6,22 +7,28 @@ body {
 }
 
 aside {
-    grid-area: "aside";
+    border: solid 2px black;
+    height: 100vh;
+    grid-area: aside;
+
+    display: flex;
+    flex-direction: column;
 
     nav {
+        margin-top: auto;
         display: grid;
         margin-top: 1.7rem;
-        grid-template-rows: 55vh 14vh;
+        grid-template-rows: 55vh 1fr;
         grid-template-areas:
             "mainNav"
             "programmer";
         
         #mainNavigation {
-            grid-area: "mainNav";
+            grid-area: mainNav;
         }
 
         #programmer {
-            grid-area: "programmer";
+            grid-area: programmer;
 
             span {
                 color: #558B2F;
@@ -41,6 +48,7 @@ aside {
         position: relative;
         font-family: 'Source Sans Pro', sans-serif;
         color: white;
+        margin-top: auto;
 
         div {
             position: absolute;
@@ -58,5 +66,11 @@ aside {
 }
 
 main {
-    grid-area: "main"
+    grid-area: main;
+}
+
+@media screen and(min-height: 1080px) {
+    aside nav {
+        grid-template-rows: 70vh 1fr;
+    }
 }
