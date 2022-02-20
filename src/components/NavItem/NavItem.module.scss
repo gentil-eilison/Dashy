@@ -1,0 +1,25 @@
+.navWrapper {
+    padding: 0.25rem 1.5625rem;
+    border-radius: 1.3125rem;
+
+    &:hover {
+        background: #EDF3E7;
+    }
+}
+
+.navLink {
+    display: inline-block;
+    color: #595F6E;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1rem;
+    width: 100%;
+
+    &:hover {
+        color: #558B2F;
+    }
+
+    img {
+        display: inline;
+        margin-right: 0.8rem;
+    }
+}
