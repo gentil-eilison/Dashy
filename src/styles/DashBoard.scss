@@ -1,3 +1,7 @@
+/*
+    Aside menu styling 
+*/
+
 #dashContent { 
     height: 100vh;
     display: grid;
@@ -9,6 +13,9 @@
 aside {
     height: 100vh;
     grid-area: aside;
+    position: sticky;
+    top: 0;
+    bottom: 0;
 
     display: flex;
     flex-direction: column;
@@ -64,12 +71,88 @@ aside {
     }
 }
 
-main {
-    grid-area: main;
-}
-
 @media screen and(min-height: 1080px) {
     aside nav {
         grid-template-rows: 70vh 1fr;
+    }
+}
+
+/*
+    Main section styling 
+*/
+
+main {
+    grid-area: main;
+
+    display: grid;
+    grid-template-rows: 4rem 1fr;
+
+    header {
+        position: relative;
+        padding: 20px;
+        font-family: 'Source Sans Pro', sans-serif;
+        // border: solid 2px black;
+
+        p {
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .verticalBar {
+            position: absolute;
+            width: 2rem;
+            transform: rotate(90deg);
+            left: 12rem;
+            bottom: 1.5rem;
+            border: solid 1px #7E8699;
+        }
+
+        .headerDivider {
+            border: solid 1px #C7CCD8;
+            width: 97%;
+            margin: auto;
+        }
+
+        .productAmount {
+            font-size: 1.5rem;
+            padding-left: 5rem;
+            color: #558B2F;
+        }
+
+        .productsLabel {
+            padding-left: 0.4rem;
+        }
+
+        h1 {
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.75rem;
+        }
+    }
+
+    
+
+    #dataDisplay {
+        display: grid;
+        padding-left: 0.5rem;
+        grid-template-rows: 20% 80%;
+        grid-template-columns: 70% 30%;
+        grid-template-areas: 
+            "simpleCards" "chartData"
+            "iconedCards" "tableData";
+    }
+
+    div.simpleCards {
+        grid-area: simpleCards;
+        display: flex;
+        padding-top: 0.5rem;
+    }
+
+    div.chartDisplay {
+        grid-area: chartData;
+    }
+
+    div.iconedCards {
+        grid-area: iconedCards;
     }
 }

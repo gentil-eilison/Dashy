@@ -1,0 +1,48 @@
+.simpleCardWrapper {
+    font-family: 'Source Sans Pro', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    margin-left: 0.5rem;
+
+    border-radius: 10px;
+    border: solid 1px #444;
+    padding: 15px;
+    width: 9.9rem;
+    height: 10rem;
+
+    img {
+        width: 1.52375rem;
+        height: 1.52375rem;
+        position: absolute;
+
+        bottom: 9rem;
+        left: 3.8rem;
+    }
+
+    .cardLabel {
+        font-weight: 600;
+        font-size: .8rem;
+        color: #191B1D;
+    }
+
+    .quantity {
+        font-size: 1.3rem;
+        font-weight: bold;
+
+        .lowerLabel {
+            font-size: 1rem;
+            display: inline-block;
+            margin-left: 0.7rem;
+        }
+    }
+
+    .percentage {
+        display: inline-block;
+        color: black;
+        font-size: .8rem;
+        margin-left: 0.3rem;
+        font-family: 'Inter', sans-serif;
+    }
+}
