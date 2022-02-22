@@ -4,6 +4,7 @@
     border-radius: 8px;
     padding: 20px;
     width: 17vw;
+    height: 8rem;
 
     hr {
         width: 100%;
@@ -14,7 +15,7 @@
     }
 
     .toolLabel {
-        font-size: 1rem;
+        font-size: 0.8rem;
         margin-bottom: 1.3rem;
     }
 }
@@ -36,13 +37,13 @@
     border-right-color: #333333;
     border-width: 8.5px;
     margin-top: -13px;
-    transform: translateX(180px) translateY(79px) rotate(-90deg);
+    transform: translateX(125px) translateY(75px) rotate(-90deg);
 }
 
 .apexcharts-tooltip {
     position: absolute;
     color: #fff;
-    transform: translateX(-170px) translateY(-160px);
+    transform: translateX(-120px) translateY(-160px);
     overflow: visible !important;
     white-space: normal !important;
     font-family: 'Source Sans Pro', sans-serif; 
