@@ -4,6 +4,7 @@ import ColumnChart from '../components/ColumnChart/ColumnChart'
 import NavItem from '../components/NavItem/NavItem'
 import SimpleCard from '../components/SimpleCard/SimpleCard'
 import FloatingInput from '../components/Input/FloatingInput'
+import DeliveryTable from '../components/DeliveryTable/DeliveryTable'
 
 import '../styles/DashBoard.scss'
 
@@ -124,8 +125,9 @@ const DashBoard = () => {
                             <FloatingInput
                                 name='delivery_status'
                                 type='select'
-                                options={['Entrege', 'Não entregue']}>Status da entrega</FloatingInput>
+                                options={['Entregue', 'Não entregue']}>Status da entrega</FloatingInput>
                         </header>
+                        <DeliveryTable></DeliveryTable>
                     </div>
                 </section>
             </main>

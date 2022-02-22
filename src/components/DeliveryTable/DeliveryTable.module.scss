@@ -1,0 +1,48 @@
+.deliveryTable {
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-left: 1rem;
+
+    .headerRow {
+        background-color: #E6EEE0;
+        color: #568C30;
+    }
+
+    .distanceCol {
+        color: #595F6E;
+    }
+
+    .destinyCol {
+        width: 10rem;
+        text-align: left;
+    }
+
+    .statusCol {
+        color: #595F6E;
+        width: 31.25rem;
+        text-align: center;
+
+        @media screen and (min-width: 1080px) {
+            width: 25rem;
+        }
+    }
+
+    .idCol {
+        padding: 0 1rem;
+    }
+
+    .tableBody {
+        color: #595F6E;
+
+        .destinyCol {
+            text-align: left;
+        }
+
+        .distanceCol {
+            text-align: center;
+        }
+
+        .statusCol {
+            padding-left: 1rem;
+        }
+    }
+}

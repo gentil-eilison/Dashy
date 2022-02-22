@@ -164,8 +164,20 @@ main {
     div.tableData {
         grid-area: tableData;
 
-        header h1 {
+        header {
+            width: 338px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+
+            h1 {
             border-bottom: 3px #558B2F solid;
+            margin-bottom: 1rem;
+            }
+        }
+
+        select {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: #595F6E;
         }
     }
 
