@@ -11,11 +11,11 @@
 }
 
 aside {
-    height: 100vh;
+    height: 100%;
     grid-area: aside;
-    position: sticky;
-    top: 0;
-    bottom: 0;
+    position: fixed;
+    width: 10rem;
+    
 
     display: flex;
     flex-direction: column;
@@ -23,6 +23,7 @@ aside {
     nav {
         margin-top: auto;
         display: grid;
+        width: 10rem;
         margin-top: 1.7rem;
         grid-template-rows: 55vh 1fr;
         grid-template-areas:
@@ -39,12 +40,12 @@ aside {
             span {
                 color: #558B2F;
                 font-family: 'Source Sans Pro', sans-serif;
-                margin-left: 25px;
+                margin-left: 12px;
             }
 
             p {
                 font-family: 'Source Sans Pro', sans-serif;
-                margin-left: 25px; 
+                margin-left: 12px; 
             }
         }
         
@@ -133,13 +134,15 @@ main {
     
 
     #dataDisplay {
+        overflow-x: auto;
         display: grid;
         padding-left: 0.5rem;
-        grid-template-rows: 20% 80%;
-        grid-template-columns: 70% 30%;
+        grid-template-rows: 8fr 92fr;
+        grid-template-columns: 20fr 80fr;
+        grid-auto-rows: 0%;
         grid-template-areas: 
-            "simpleCards" "chartData"
-            "iconedCards" "tableData";
+            "simpleCards iconedCards"
+            "chartData tableData";
     }
 
     div.simpleCards {
@@ -148,11 +151,22 @@ main {
         padding-top: 0.5rem;
     }
 
+    div.iconedCards {
+        display: flex;
+        grid-area: iconedCards;
+        padding-top: 0.5rem;
+    }
+
     div.chartDisplay {
         grid-area: chartData;
     }
 
-    div.iconedCards {
-        grid-area: iconedCards;
+    div.tableData {
+        grid-area: tableData;
+
+        header h1 {
+            border-bottom: 3px #558B2F solid;
+        }
     }
+
 }

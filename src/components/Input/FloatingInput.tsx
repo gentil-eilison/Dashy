@@ -16,20 +16,37 @@ type InputData = {
     children: any
     name: string
     required?: boolean
+    options?: string[]
 }
 
 const Input = (props: InputData) => {
+    const selectOptions = props.options ? props.options : null 
+
+    const optionsTags = selectOptions?.map((e, i) => {
+        return <option value={e} key={`${i}`}>{e}</option>
+    })
+
+    console.log(optionsTags)
+
     return (
         <div className={styles.formGroup}>
-            <input 
-                type={props.type}
-                required={props.required} 
-                value={props.value ?? props.value}
-                name={props.name}
-                id={props.name}
-                placeholder=' '
-                className={styles.floatingInput}/>
-            <label htmlFor={props.type} className={styles.floatingLabel}>{props.children}</label>
+            {props.type == "select" ? (
+                <select name={props.name} id={props.name} className={styles.floatingInput} title={props.name}>
+                    {optionsTags}
+                </select>
+            ) : (
+                <>
+                <input 
+                    type={props.type}
+                    required={props.required} 
+                    value={props.value ?? props.value}
+                    name={props.name}
+                    id={props.name}
+                    placeholder=' '
+                    className={styles.floatingInput}/>
+                <label htmlFor={props.type} className={styles.floatingLabel}>{props.children}</label>
+                </>
+            )}
         </div>
         
     )

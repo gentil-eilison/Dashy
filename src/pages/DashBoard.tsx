@@ -3,6 +3,7 @@ import PieChart from '../components/PieChart/PieChart'
 import ColumnChart from '../components/ColumnChart/ColumnChart'
 import NavItem from '../components/NavItem/NavItem'
 import SimpleCard from '../components/SimpleCard/SimpleCard'
+import FloatingInput from '../components/Input/FloatingInput'
 
 import '../styles/DashBoard.scss'
 
@@ -92,29 +93,39 @@ const DashBoard = () => {
 
                     <div className="iconedCards">
                         <SimpleCard
-                            cardLabel='Produtos entregues'
-                            quantity={22}
-                            color='#ACC79A'
-                            percentage={22}></SimpleCard>
-                            <SimpleCard
-                            cardLabel='Produtos entregues'
-                            quantity={22}
-                            color='#ACC79A'
-                            percentage={22}></SimpleCard>
-                            <SimpleCard
-                            cardLabel='Produtos entregues'
-                            quantity={22}
-                            color='#ACC79A'
-                            percentage={22}></SimpleCard>
-                            <SimpleCard
-                            cardLabel='Produtos entregues'
-                            quantity={22}
-                            color='#ACC79A'
-                            percentage={22}></SimpleCard>
+                            cardLabel='Média de entregas finalizadas por dia'
+                            quantity={2.27}
+                            color='#595F6E'
+                            cardText='entregas'
+                            iconSrc={streetLight}></SimpleCard>
+                        <SimpleCard
+                            cardLabel='Média de entregas com falta de cliente'
+                            quantity={1.2}
+                            color='#595F6E'
+                            cardText='entregas'
+                            iconSrc={pliers}></SimpleCard>
+                        <SimpleCard
+                            cardLabel='Média de distância percorrida pelos entregadores'
+                            quantity={4.5}
+                            color='#595F6E'
+                            cardText='Km'
+                            iconSrc={greenTick}></SimpleCard>
+                        <SimpleCard
+                            cardLabel='Média de distância percorrida em entregas não realizadas'
+                            quantity={2.7}
+                            color='#595F6E'
+                            cardText='Km'
+                            iconSrc={rollThread}></SimpleCard> 
                     </div>
 
-                    <div className="chartDisplay">
-                        <blockquote>Pica Pau 123 Isso não acontecia</blockquote>
+                    <div className="tableData">
+                        <header>
+                            <h1>Entregas</h1>
+                            <FloatingInput
+                                name='delivery_status'
+                                type='select'
+                                options={['Entrege', 'Não entregue']}>Status da entrega</FloatingInput>
+                        </header>
                     </div>
                 </section>
             </main>

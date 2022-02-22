@@ -20,7 +20,7 @@ const SimpleCard = (props: SimpleCardData) => {
 
             <span 
                 className={style.quantity}
-                style={{color: props.color ? props.color : '#000'}}>{props.quantity}
+                style={{color: props.color ? props.color : '#000'}}>{String(props.quantity).replace('.', ',')}
                 
                 <p 
                     className={style.lowerLabel}
