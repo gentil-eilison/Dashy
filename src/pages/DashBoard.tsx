@@ -129,6 +129,59 @@ const DashBoard = () => {
                         </header>
                         <DeliveryTable></DeliveryTable>
                     </div>
+
+                    <div className="chartDisplay">
+                        <section id="deliveryStatus">
+                            <header>
+                                <h1>Status das Entregas</h1>
+                            </header>
+                            <PieChart
+                                id='ds'
+                                labels={[' 49 no prazo (50%)', '20 em risco (29%)', '28 em risco (21%)']}
+                                series={[49, 20, 28]}
+                                colors={['#47B27C', '#FFCA83', '#FF7285']}
+                                width={350}
+                                height={200}></PieChart>
+                        </section>
+
+                        <section id="deliveryIssues">
+                            <header>
+                                <h1>Problemas de Entrega</h1>
+                                <PieChart
+                                    id='di'
+                                    labels={['18 Casos de remetente ausente (73%)', '5 Casos de produto errado (27%)']}
+                                    series={[18, 5]}
+                                    colors={['#004C6D', '#9DC6E0']}
+                                    width={400}
+                                    height={300}></PieChart>
+                            </header>
+                        </section>
+
+                        <section id="nonConformitiesPhase">
+                            <header>
+                                <h1>Total de não conformidades por fase</h1>
+                            </header>
+                            <PieChart
+                                id='ncp'
+                                labels={['19 Posteamento (20%)', '15 Rede (21%)', '13 Equipamentos (19%)', '19 Normalização (20%)', '18 Rede (20%)']}
+                                series={[19, 15, 13, 19, 18]}
+                                colors={['#46CE8A', '#9997EB', '#F26C7E', '#A4BD8C', '#FFCA83']}
+                                width={450}
+                                height={350}
+                                legendPosition='bottom'></PieChart>
+                        </section>
+
+                        <section id="blockDeliveryReason">
+                            <header>
+                                <h1>Motivo de bloqueio nas entregas</h1>
+                            </header>
+                            <ColumnChart
+                                categories={['Falta de dados de remetente', 'Embalagem violada', 'Produto errado']}id='bdr'
+                                title='Frequência'
+                                data={[7, 6, 4]}
+                                colors={['#004C6D', '#5886A5', '#9DC6E0']}></ColumnChart>
+                        </section>
+                    </div>
                 </section>
             </main>
         </div>

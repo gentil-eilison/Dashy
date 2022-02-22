@@ -137,7 +137,7 @@ main {
         overflow-x: auto;
         display: grid;
         padding-left: 0.5rem;
-        grid-template-rows: 8fr 92fr;
+        grid-template-rows: 8fr 50fr;
         grid-template-columns: 20fr 80fr;
         grid-auto-rows: 0%;
         grid-template-areas: 
@@ -159,6 +159,30 @@ main {
 
     div.chartDisplay {
         grid-area: chartData;
+        
+        display: grid;
+        grid-template-columns: 26rem 1fr;
+        grid-template-rows: 20rem 0.5fr;
+        grid-template-areas: 
+            "deliveryStatus nonConformitiesPhase"
+            "deliveryIssues nonConformitiesPhase";
+        
+        #deliveryStatus {
+            grid-area: deliveryStatus; 
+        }
+
+        #deliveryIssues {
+            grid-area: deliveryIssues;
+        }
+
+        #nonConformitiesPhase {
+            grid-area: nonConformitiesPhase;
+        }
+
+        #blockedDeliveryReason {
+            width: fit-content;
+            margin-top: 0;
+        }
     }
 
     div.tableData {

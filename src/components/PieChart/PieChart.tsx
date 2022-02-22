@@ -6,39 +6,30 @@ type PieChartData = {
     series: Array<number>
     colors?: Array<string>
     id: string
+    width: number 
+    height: number
+    legendPosition?: string
 }
 
 const PieChart = (props: PieChartData) => {
     const [series, setSeries] = useState<number[]>(props.series)
     const [labels, setLabels] = useState<string[]>(props.labels)
 
-    const chartSettings = {
+    const chartSettings: any = {
         chart: {
             fontFamily: 'Source Sans Pro, sans serif',
         },
         series, 
-        options: {
-            width: 380,
-            type: 'pie'
-        },
-        colors: ['#47B27C', '#FFCA83', '#FF7285', '#9997EB'],
+        type: 'pie',
+        colors: props.colors ? props.colors : ['#47B27C', '#FFCA83', '#FF7285', '#9997EB'],
         labels,
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                chart: {
-                    width: 200
-                },
-                legend: {
-                    position: 'bottom',
-                }
-            }
-        }],
         legend: {
+            position: props.legendPosition ? props.legendPosition : 'right',
             markers: {
                 width: 20,
                 height: 10
-            }
+            },
+            horizontalAlign: 'left'
         },
         dataLabels: {
             enabled: false
@@ -48,7 +39,12 @@ const PieChart = (props: PieChartData) => {
 
     return (
         <div id={props.id}>
-            <ReactApexChart options={chartSettings} series={series} type="pie" width={380}></ReactApexChart>
+            <ReactApexChart 
+                options={chartSettings} 
+                series={series} 
+                type="pie" 
+                width={props.width}
+                height={props.height}></ReactApexChart>
         </div>
     )
 }
