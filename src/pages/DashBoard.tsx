@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
-import loadProductsData from '../services/apiRequests'
+import api from '../services/api'
 
 // Components
 import PieChart from '../components/PieChart/PieChart'
@@ -23,8 +23,10 @@ import greenTick from '../assets/images/greenTick.svg'
 import rollThread from '../assets/images/rollThread.svg'
 import streetLight from '../assets/images/streetLight.svg'
 
+
 const DashBoard = () => {
-    const [productsAmount, setProductsAmount] = useState<number[]>([])
+    const [productsAmount, setProductsAmount] = useState<any>(false)
+    const [deliveryAvgs, setDeliveryAvgs] = useState<any>(false)
 
     const sumProductsAmount = (categoryAmounts: number[]) => {
         return categoryAmounts.reduce((previousE, e) => previousE + e, 0)
@@ -43,10 +45,20 @@ const DashBoard = () => {
     }
 
     useEffect(() => {
-        loadProductsData.loadProductByStatus().then(response => setProductsAmount(
-            [response.delivered, response.lateRisk, response.late]
-        ))
+        api.get("/products-by-status")
+                .then(response => setProductsAmount([
+                    response.data.data.delivered, 
+                    response.data.data.lateRisk, 
+                    response.data.data.late
+                ]))
+                .catch(error => console.log(error))
+    
+        api.get("/delivery-avgs")
+                .then(response => setDeliveryAvgs(response.data.data))
+                .catch(error => console.log(error))
     }, [])
+
+    console.log(deliveryAvgs)
 
     return (
         <div id="dashContent">
@@ -93,61 +105,74 @@ const DashBoard = () => {
                 <header>
                     <span>
                         <h1>DASHBOARD</h1>
-                        <p className='productAmount'>{sumProductsAmount(productsAmount)}</p> 
-                        <p className='productsLabel'>produtos</p></span>
+                        {productsAmount && 
+                            <>
+                                <p className='productAmount'>{sumProductsAmount(productsAmount)}</p> 
+                                <p className='productsLabel'>produtos</p>
+                            </>
+                        }
+                    </span>
                         <hr className='verticalBar'/> 
                         <hr className='headerDivider' />
                 </header>
                 
 
                 <section id="dataDisplay">
-                    <div className="simpleCards">
-                        <SimpleCard
-                            cardLabel='Total de produtos'
-                            quantity={sumProductsAmount(productsAmount)}></SimpleCard>
-                        <SimpleCard
-                            cardLabel='Produtos com atraso na entrega'
-                            quantity={productsAmount[2]}
-                            color='#E8596C'
-                            percentage={categoryPercentage(productsAmount, "late")}></SimpleCard>
-                        <SimpleCard
-                            cardLabel='Produtos com risco de atraso'
-                            quantity={productsAmount[1]}
-                            color='#EFB15D'
-                            percentage={categoryPercentage(productsAmount, "lateRisk")}></SimpleCard>
-                        <SimpleCard
-                            cardLabel='Produtos entregues'
-                            quantity={productsAmount[0]}
-                            color='#ACC79A'
-                            percentage={categoryPercentage(productsAmount, "delivered")}></SimpleCard>
-                    </div>
+                    {productsAmount && 
+                        <div className="simpleCards">
+                            <SimpleCard
+                                cardLabel='Total de produtos'
+                                quantity={sumProductsAmount(productsAmount)}></SimpleCard>
+                            <SimpleCard
+                                cardLabel='Produtos com atraso na entrega'
+                                quantity={productsAmount[2]}
+                                color='#E8596C'
+                                percentage={categoryPercentage(productsAmount, "late")}></SimpleCard>
+                            <SimpleCard
+                                cardLabel='Produtos com risco de atraso'
+                                quantity={productsAmount[1]}
+                                color='#EFB15D'
+                                percentage={categoryPercentage(productsAmount, "lateRisk")}></SimpleCard>
+                            <SimpleCard
+                                cardLabel='Produtos entregues'
+                                quantity={productsAmount[0]}
+                                color='#ACC79A'
+                                percentage={categoryPercentage(productsAmount, "delivered")}></SimpleCard>
+                        </div>
+                    }
 
-                    <div className="iconedCards">
-                        <SimpleCard
-                            cardLabel='Média de entregas finalizadas por dia'
-                            quantity={2.27}
-                            color='#595F6E'
-                            cardText='entregas'
-                            iconSrc={streetLight}></SimpleCard>
-                        <SimpleCard
-                            cardLabel='Média de entregas com falta de cliente'
-                            quantity={1.2}
-                            color='#595F6E'
-                            cardText='entregas'
-                            iconSrc={pliers}></SimpleCard>
-                        <SimpleCard
-                            cardLabel='Média de distância percorrida pelos entregadores'
-                            quantity={4.5}
-                            color='#595F6E'
-                            cardText='Km'
-                            iconSrc={greenTick}></SimpleCard>
-                        <SimpleCard
-                            cardLabel='Média de distância percorrida em entregas não realizadas'
-                            quantity={2.7}
-                            color='#595F6E'
-                            cardText='Km'
-                            iconSrc={rollThread}></SimpleCard> 
-                    </div>
+                    
+                    {deliveryAvgs && 
+                        <div className="iconedCards">
+                            <SimpleCard
+                                cardLabel={deliveryAvgs[0].label}
+                                quantity={deliveryAvgs[0].value}
+                                color='#595F6E'
+                                cardText={deliveryAvgs[0].unity}
+                                iconSrc={streetLight}></SimpleCard> 
+                            <SimpleCard
+                                cardLabel={deliveryAvgs[1].label}
+                                quantity={deliveryAvgs[1].value}
+                                color='#595F6E'
+                                cardText={deliveryAvgs[1].unity}
+                                iconSrc={pliers}></SimpleCard>
+                            <SimpleCard
+                                cardLabel={deliveryAvgs[2].label}
+                                quantity={deliveryAvgs[2].value}
+                                color='#595F6E'
+                                cardText={deliveryAvgs[2].unity}
+                                iconSrc={greenTick}></SimpleCard>
+                            <SimpleCard
+                                cardLabel={deliveryAvgs[3].label}
+                                quantity={deliveryAvgs[3].value}
+                                color='#595F6E'
+                                cardText={deliveryAvgs[3].unity}
+                                iconSrc={rollThread}></SimpleCard> 
+                        </div>
+                    }
+
+
+                   
 
                     <div className="tableData">
                         <header>
@@ -161,18 +186,20 @@ const DashBoard = () => {
                     </div>
 
                     <div className="chartDisplay">
-                        <section id="deliveryStatus">
-                            <header>
-                                <h1>Status das Entregas</h1>
-                            </header>
-                            <PieChart
-                                id='ds'
-                                labels={[' 49 no prazo (50%)', '20 em risco (29%)', '28 em risco (21%)']}
-                                series={[49, 20, 28]}
-                                colors={['#47B27C', '#FFCA83', '#FF7285']}
-                                width={350}
-                                height={200}></PieChart>
-                        </section>
+                        {productsAmount &&
+                            <section id="deliveryStatus">
+                                <header>
+                                    <h1>Status das Entregas</h1>
+                                </header>
+                                <PieChart
+                                    id='ds'
+                                    labels={['Entregues', 'Em Risco', 'Atrasadas']}
+                                    series={productsAmount}
+                                    colors={['#47B27C', '#FFCA83', '#FF7285']}
+                                    width={350}
+                                    height={200}></PieChart>
+                            </section>
+                        }
 
                         <section id="deliveryIssues">
                             <header>
@@ -189,11 +216,11 @@ const DashBoard = () => {
 
                         <section id="nonConformitiesPhase">
                             <header>
-                                <h1>Total de não conformidades por fase</h1>
+                                <h1>Avaliação de Entregas</h1>
                             </header>
                             <PieChart
                                 id='ncp'
-                                labels={['19 Posteamento (20%)', '15 Rede (21%)', '13 Equipamentos (19%)', '19 Normalização (20%)', '18 Rede (20%)']}
+                                labels={['Excelente', 'Bom', 'Regular', 'Ruim', 'Terrível']}
                                 series={[19, 15, 13, 19, 18]}
                                 colors={['#46CE8A', '#9997EB', '#F26C7E', '#A4BD8C', '#FFCA83']}
                                 width={450}
