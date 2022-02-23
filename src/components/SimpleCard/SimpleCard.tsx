@@ -29,7 +29,7 @@ const SimpleCard = (props: SimpleCardData) => {
                 </p>
 
                 {props.percentage ? (
-                    <p className={style.percentage}>{props.percentage}%</p>
+                    <p className={style.percentage}>{Math.round(props.percentage)}%</p>
                 ) : null }
             </span>
         </div>

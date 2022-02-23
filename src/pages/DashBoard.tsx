@@ -1,4 +1,8 @@
 import React from 'react'
+import { useEffect, useState } from 'react'
+import loadProductsData from '../services/apiRequests'
+
+// Components
 import PieChart from '../components/PieChart/PieChart'
 import ColumnChart from '../components/ColumnChart/ColumnChart'
 import NavItem from '../components/NavItem/NavItem'
@@ -6,8 +10,10 @@ import SimpleCard from '../components/SimpleCard/SimpleCard'
 import FloatingInput from '../components/Input/FloatingInput'
 import DeliveryTable from '../components/DeliveryTable/DeliveryTable'
 
+// Styles
 import '../styles/DashBoard.scss'
 
+// Images
 import dashboardIcon from '../assets/images/dashboard.svg'
 import exitIcon from '../assets/images/exitIcon.svg'
 import footerStrip from '../assets/images/footerStrip.svg'
@@ -18,6 +24,30 @@ import rollThread from '../assets/images/rollThread.svg'
 import streetLight from '../assets/images/streetLight.svg'
 
 const DashBoard = () => {
+    const [productsAmount, setProductsAmount] = useState<number[]>([])
+
+    const sumProductsAmount = (categoryAmounts: number[]) => {
+        return categoryAmounts.reduce((previousE, e) => previousE + e, 0)
+    }
+
+    const categoryPercentage = (categoryAmounts: number[], category="delivered" || "lateRisk" || "late") => {
+        const totalAmount = sumProductsAmount(categoryAmounts)
+
+        if (category === "delivered") {
+            return ((productsAmount[0]/totalAmount) * 100)
+        } else if (category === "lateRisk") {
+            return ((productsAmount[1]/totalAmount) * 100)
+        } else {
+            return ((productsAmount[2]/totalAmount) * 100)
+        }
+    }
+
+    useEffect(() => {
+        loadProductsData.loadProductByStatus().then(response => setProductsAmount(
+            [response.delivered, response.lateRisk, response.late]
+        ))
+    }, [])
+
     return (
         <div id="dashContent">
             <aside>
@@ -63,7 +93,7 @@ const DashBoard = () => {
                 <header>
                     <span>
                         <h1>DASHBOARD</h1>
-                        <p className='productAmount'>97</p> 
+                        <p className='productAmount'>{sumProductsAmount(productsAmount)}</p> 
                         <p className='productsLabel'>produtos</p></span>
                         <hr className='verticalBar'/> 
                         <hr className='headerDivider' />
@@ -74,22 +104,22 @@ const DashBoard = () => {
                     <div className="simpleCards">
                         <SimpleCard
                             cardLabel='Total de produtos'
-                            quantity={97}></SimpleCard>
+                            quantity={sumProductsAmount(productsAmount)}></SimpleCard>
                         <SimpleCard
                             cardLabel='Produtos com atraso na entrega'
-                            quantity={15}
+                            quantity={productsAmount[2]}
                             color='#E8596C'
-                            percentage={15}></SimpleCard>
+                            percentage={categoryPercentage(productsAmount, "late")}></SimpleCard>
                         <SimpleCard
                             cardLabel='Produtos com risco de atraso'
-                            quantity={22}
+                            quantity={productsAmount[1]}
                             color='#EFB15D'
-                            percentage={22}></SimpleCard>
+                            percentage={categoryPercentage(productsAmount, "lateRisk")}></SimpleCard>
                         <SimpleCard
                             cardLabel='Produtos entregues'
-                            quantity={22}
+                            quantity={productsAmount[0]}
                             color='#ACC79A'
-                            percentage={22}></SimpleCard>
+                            percentage={categoryPercentage(productsAmount, "delivered")}></SimpleCard>
                     </div>
 
                     <div className="iconedCards">
