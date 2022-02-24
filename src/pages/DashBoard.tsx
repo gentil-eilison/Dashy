@@ -27,6 +27,7 @@ import streetLight from '../assets/images/streetLight.svg'
 const DashBoard = () => {
     const [productsAmount, setProductsAmount] = useState<any>(false)
     const [deliveryAvgs, setDeliveryAvgs] = useState<any>(false)
+    const [deliveriesData, setDeliveriesData] = useState<any>(false)
 
     const sumProductsAmount = (categoryAmounts: number[]) => {
         return categoryAmounts.reduce((previousE, e) => previousE + e, 0)
@@ -56,9 +57,10 @@ const DashBoard = () => {
         api.get("/delivery-avgs")
                 .then(response => setDeliveryAvgs(response.data.data))
                 .catch(error => console.log(error))
-    }, [])
 
-    console.log(deliveryAvgs)
+        api.get("/deliveries")
+                .then(response => setDeliveriesData(response.data.data.deliveries))
+    }, [])
 
     return (
         <div id="dashContent">
@@ -180,9 +182,14 @@ const DashBoard = () => {
                             <FloatingInput
                                 name='delivery_status'
                                 type='select'
-                                options={['Entregue', 'Não entregue']}>Status da entrega</FloatingInput>
+                                options={['---', 'Entregue', 'Em rota de entrega', 'Na distribuidora']}
+                                >Status da entrega</FloatingInput>
                         </header>
-                        <DeliveryTable></DeliveryTable>
+                        {deliveriesData && 
+                            <DeliveryTable 
+                            deliveriesData={deliveriesData}
+                            ></DeliveryTable>
+                        }
                     </div>
 
                     <div className="chartDisplay">

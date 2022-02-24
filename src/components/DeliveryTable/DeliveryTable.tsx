@@ -1,6 +1,20 @@
 import style from './DeliveryTable.module.scss'
+import { useEffect, useState } from 'react'
 
-const DeliveryTable = (props: any) => {
+type delivery = {
+    id: number 
+    address: string 
+    distance: number 
+    status: string 
+}
+
+type DeliveryTableData = {
+    deliveriesData: delivery[]
+}
+
+const DeliveryTable = ({ deliveriesData }: DeliveryTableData) => {
+    const [isFiltered, setIsFiltered] = useState<any>([false, '---'])
+
     const renderHeader = () => {
         return (
             <thead>
@@ -14,46 +28,45 @@ const DeliveryTable = (props: any) => {
         )
     }
 
+    const capitalizeWord = (word: string) => {
+        return word.charAt(0).toUpperCase() + word.slice(1)
+    } 
+
+    useEffect(() => {
+        console.log(isFiltered)
+    }, [isFiltered])
+
+    document.getElementsByTagName('select')[0].onchange = () => {
+        let selectValue = document.getElementsByTagName('select')[0].value
+        let filterTable = selectValue === "---" ? false : true
+        setIsFiltered([filterTable, selectValue])
+    }
+
+
     const renderBody = () => {
-        return (
-            <tbody className={style.tableBody}>
-                <tr>
-                    <td className={style.idCol}>1</td>
-                    <td className={style.destinyCol}>Serra Talhada</td>
-                    <td className={style.distanceCol}>2Km</td>
-                    <td className={style.statusCol}>Entregue</td>
-                </tr>
-                <tr>
-                    <td className={style.idCol}>2</td>
-                    <td className={style.destinyCol}>Serra Talhada</td>
-                    <td className={style.distanceCol}>2Km</td>
-                    <td className={style.statusCol}>Entregue</td>
-                </tr>
-                <tr>
-                    <td className={style.idCol}>3</td>
-                    <td className={style.destinyCol}>Serra Talhada</td>
-                    <td className={style.distanceCol}>2Km</td>
-                    <td className={style.statusCol}>Entregue</td>
-                </tr>
-                <tr>
-                    <td className={style.idCol}>4</td>
-                    <td className={style.destinyCol}>Serra Talhada</td>
-                    <td className={style.distanceCol}>2Km</td>
-                    <td className={style.statusCol}>Entregue</td>
-                </tr>
-                <tr>
-                    <td className={style.idCol}>5</td>
-                    <td className={style.destinyCol}>Serra Talhada</td>
-                    <td className={style.distanceCol}>2Km</td>
-                    <td className={style.statusCol}>Entregue</td>
-                </tr>
-                <tr>
-                    <td className={style.idCol}>6</td>
-                    <td className={style.destinyCol}>Serra Talhada</td>
-                    <td className={style.distanceCol}>2Km</td>
-                    <td className={style.statusCol}>Entregue</td>
-                </tr>
-            </tbody>
+        return (<tbody className={style.tableBody}>
+            {isFiltered[0] ? (
+                deliveriesData?.map(e => {
+                    if (e.status === isFiltered[1].toLowerCase()) {
+                        return <tr key={e.id}>
+                            <td className={style.idCol}>{e.id}</td>
+                            <td className={style.destinyCol}>{e.address}</td>
+                            <td className={style.distanceCol}>{e.distance} km</td>
+                            <td className={style.statusCol}>{capitalizeWord(e.status)}</td>
+                        </tr>
+                    }
+                })
+            ) : (
+                deliveriesData?.map(e => {
+                    return <tr key={e.id}>
+                            <td className={style.idCol}>{e.id}</td>
+                            <td className={style.destinyCol}>{e.address}</td>
+                            <td className={style.distanceCol}>{e.distance} km</td>
+                            <td className={style.statusCol}>{capitalizeWord(e.status)}</td>
+                            </tr>
+                })
+            )}
+        </tbody>
         )
     }
 

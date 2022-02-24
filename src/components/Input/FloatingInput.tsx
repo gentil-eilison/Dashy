@@ -26,13 +26,16 @@ const Input = (props: InputData) => {
         return <option value={e} key={`${i}`}>{e}</option>
     })
 
-    console.log(optionsTags)
-
     return (
         <div className={styles.formGroup}>
-            {props.type == "select" ? (
+            {props.type === "select" ? (
                 <>
-                <select name={props.name} id={props.name} className={styles.floatingInput} title={props.name}>
+                <select 
+                    name={props.name} 
+                    id={props.name} 
+                    className={styles.floatingInput} 
+                    title={props.name}
+                    >
                     {optionsTags}
                 </select>
                 <label htmlFor={props.type} className={styles.floatingLabel}>{props.children}</label>
