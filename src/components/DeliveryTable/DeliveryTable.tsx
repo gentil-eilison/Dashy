@@ -32,10 +32,6 @@ const DeliveryTable = ({ deliveriesData }: DeliveryTableData) => {
         return word.charAt(0).toUpperCase() + word.slice(1)
     } 
 
-    useEffect(() => {
-        console.log(isFiltered)
-    }, [isFiltered])
-
     document.getElementsByTagName('select')[0].onchange = () => {
         let selectValue = document.getElementsByTagName('select')[0].value
         let filterTable = selectValue === "---" ? false : true

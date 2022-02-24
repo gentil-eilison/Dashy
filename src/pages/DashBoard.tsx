@@ -28,6 +28,8 @@ const DashBoard = () => {
     const [productsAmount, setProductsAmount] = useState<any>(false)
     const [deliveryAvgs, setDeliveryAvgs] = useState<any>(false)
     const [deliveriesData, setDeliveriesData] = useState<any>(false)
+    const [deliveriesProblems, setDeliveriesProblems] = useState<any>(false)
+    const [deliveriesRating, setDeliveriesRating] = useState<any>(false)
 
     const sumProductsAmount = (categoryAmounts: number[]) => {
         return categoryAmounts.reduce((previousE, e) => previousE + e, 0)
@@ -45,6 +47,41 @@ const DashBoard = () => {
         }
     }
 
+    const populateProblemsSeries = (problemsData: any[]) => {
+        const data = problemsData.map(e => {
+            return e.quantity
+        })
+
+        return data
+    }
+
+    const problemPercentage = (problemsData: any[], problemType="Produto errado" || "Remetente ausente" || "Embalagem violada") => {
+        const problemTypeArray = populateProblemsSeries(problemsData)
+        let problemTypeAmount = null 
+        
+        switch(problemType) {
+            case "Remetente ausente":
+                problemTypeAmount = problemTypeArray[0]
+                break 
+            case "Embalagem violada":
+                problemTypeAmount = problemTypeArray[1]
+                break
+            case "Produto errado":
+                problemTypeAmount = problemTypeArray[2]
+                break
+        }
+
+        const problemsAmount = problemsData.map(e => {
+            return e.quantity
+        })
+
+        const totalAmount = problemsAmount.reduce((previousE, e) => previousE + e, 0)
+
+        const percentage = ((problemTypeAmount/totalAmount) * 100)
+
+        return percentage
+    }
+
     useEffect(() => {
         api.get("/products-by-status")
                 .then(response => setProductsAmount([
@@ -60,6 +97,15 @@ const DashBoard = () => {
 
         api.get("/deliveries")
                 .then(response => setDeliveriesData(response.data.data.deliveries))
+                .catch(error => console.log(error))
+        
+        api.get("/delivery-problems")
+                .then(response => setDeliveriesProblems(response.data.data))
+                .catch(error => console.log(error))
+        
+        api.get("/rating")
+                .then(response => setDeliveriesRating(response.data.data))
+                .catch(error => console.log(error))
     }, [])
 
     return (
@@ -173,9 +219,6 @@ const DashBoard = () => {
                         </div>
                     }
 
-
-                   
-
                     <div className="tableData">
                         <header>
                             <h1>Entregas</h1>
@@ -200,7 +243,10 @@ const DashBoard = () => {
                                 </header>
                                 <PieChart
                                     id='ds'
-                                    labels={['Entregues', 'Em Risco', 'Atrasadas']}
+                                    labels={[
+                                        `Entregues (${Math.round(categoryPercentage(productsAmount, "delivered"))}%)`, 
+                                        `Em Risco (${Math.round(categoryPercentage(productsAmount, "lateRisk"))}%)`, `Atrasadas (${Math.round(categoryPercentage(productsAmount, "late"))}%)`
+                                    ]}
                                     series={productsAmount}
                                     colors={['#47B27C', '#FFCA83', '#FF7285']}
                                     width={350}
@@ -208,43 +254,59 @@ const DashBoard = () => {
                             </section>
                         }
 
-                        <section id="deliveryIssues">
-                            <header>
-                                <h1>Problemas de Entrega</h1>
+                        {deliveriesProblems && 
+                        <>
+                            <section id="deliveryIssues">
+                                <header>
+                                    <h1>Problemas de Entrega</h1>
+                                        <PieChart
+                                            id='di'
+                                            labels={[
+                                                `Remetente ausente (${Math.round(problemPercentage(deliveriesProblems, "Remetente ausente"))}%)`,
+                                                `Embalagem violada (${Math.round(problemPercentage(deliveriesProblems, "Embalagem violada"))}%)`
+                                            ]}
+                                            series={populateProblemsSeries(deliveriesProblems).slice(0, 2)}
+                                            colors={['#004C6D', '#9DC6E0']}
+                                            width={400}
+                                            height={300}></PieChart>     
+                                </header>
+                            </section>
+
+                            <section id="blockDeliveryReason">
+                                <header>
+                                    <h1>Motivo de bloqueio nas entregas</h1>
+                                </header>
+                                <ColumnChart
+                                    categories={['Remetente ausente', 'Embalagem violada', 'Produto errado']}id='bdr'
+                                    title='Frequência'
+                                    data={populateProblemsSeries(deliveriesProblems)}
+                                    colors={['#004C6D', '#5886A5', '#9DC6E0']}></ColumnChart>
+                            </section>
+                        </>
+                        }
+
+                        {deliveriesRating &&
+                            <section id="nonConformitiesPhase">
+                                <header>
+                                    <h1>Avaliação de Entregas</h1>
+                                </header>
                                 <PieChart
-                                    id='di'
-                                    labels={['18 Casos de remetente ausente (73%)', '5 Casos de produto errado (27%)']}
-                                    series={[18, 5]}
-                                    colors={['#004C6D', '#9DC6E0']}
-                                    width={400}
-                                    height={300}></PieChart>
-                            </header>
-                        </section>
-
-                        <section id="nonConformitiesPhase">
-                            <header>
-                                <h1>Avaliação de Entregas</h1>
-                            </header>
-                            <PieChart
-                                id='ncp'
-                                labels={['Excelente', 'Bom', 'Regular', 'Ruim', 'Terrível']}
-                                series={[19, 15, 13, 19, 18]}
-                                colors={['#46CE8A', '#9997EB', '#F26C7E', '#A4BD8C', '#FFCA83']}
-                                width={450}
-                                height={350}
-                                legendPosition='bottom'></PieChart>
-                        </section>
-
-                        <section id="blockDeliveryReason">
-                            <header>
-                                <h1>Motivo de bloqueio nas entregas</h1>
-                            </header>
-                            <ColumnChart
-                                categories={['Falta de dados de remetente', 'Embalagem violada', 'Produto errado']}id='bdr'
-                                title='Frequência'
-                                data={[7, 6, 4]}
-                                colors={['#004C6D', '#5886A5', '#9DC6E0']}></ColumnChart>
-                        </section>
+                                    id='ncp'
+                                    labels={['Excelente', 'Bom', 'Regular', 'Ruim', 'Terrível']}
+                                    series={[
+                                        deliveriesRating.excellent, 
+                                        deliveriesRating.good, 
+                                        deliveriesRating.regular,
+                                        deliveriesRating.bad,
+                                        deliveriesRating.terrible
+                                    ]}
+                                    colors={['#46CE8A', '#A4BD8C', '#FFCA83', '#9997EB', '#F26C7E' ]}
+                                    width={450}
+                                    height={350}
+                                    legendPosition='bottom'></PieChart>
+                            </section>
+                        }
+                        
                     </div>
                 </section>
             </main>
