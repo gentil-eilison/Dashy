@@ -3,6 +3,7 @@
  */
 
 import React from 'react'
+import { useForm, UseFormRegisterReturn } from 'react-hook-form'
 
 import styles from './FloatingInput.module.scss'
 
@@ -19,43 +20,47 @@ type InputData = {
     options?: string[]
 }
 
-const Input = (props: InputData) => {
-    const selectOptions = props.options ? props.options : null 
+const Input = React.forwardRef(({ type, value, children, name, required, options }: InputData, ref: any) => { 
+    const selectOptions = options ? options : null 
 
     const optionsTags = selectOptions?.map((e, i) => {
         return <option value={e} key={`${i}`}>{e}</option>
     })
 
+    console.log(name)
+
     return (
         <div className={styles.formGroup}>
-            {props.type === "select" ? (
+            {type === "select" ? (
                 <>
                 <select 
-                    name={props.name} 
-                    id={props.name} 
+                    ref={ref}
+                    name={name}
+                    id={name} 
                     className={styles.floatingInput} 
-                    title={props.name}
+                    title={name}
                     >
                     {optionsTags}
                 </select>
-                <label htmlFor={props.type} className={styles.floatingLabel}>{props.children}</label>
+                <label htmlFor={type} className={styles.floatingLabel}>{children}</label>
                 </>
             ) : (
                 <>
                 <input 
-                    type={props.type}
-                    required={props.required} 
-                    value={props.value ?? props.value}
-                    name={props.name}
-                    id={props.name}
+                    ref={ref}
+                    type={type}
+                    required={required} 
+                    value={value ?? value}
+                    name={name}
+                    id={name}
                     placeholder=' '
                     className={styles.floatingInput}/>
-                <label htmlFor={props.type} className={styles.floatingLabel}>{props.children}</label>
+                <label htmlFor={type} className={styles.floatingLabel}>{children}</label>
                 </>
             )}
         </div>
         
     )
-}
+})
 
 export default Input

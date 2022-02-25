@@ -2,9 +2,12 @@
  * Homepage componenet
  */
 
-import React from 'react'
+import React, { useContext } from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+
 import FloatingInput from '../components/Input/FloatingInput'
+import { AuthContext } from '../provider/Auth'
 
 import rightGreenPiece from '../assets/images/rightPiece.svg'
 import leftGreenPiece from '../assets/images/leftPiece.svg'
@@ -12,7 +15,19 @@ import greenLeaf from '../assets/images/leaf.png'
 
 import '../styles/App.scss'
 
+type SignInData = {
+   username: string 
+   password: string 
+}
+
 function App() {
+  const { register, handleSubmit } = useForm()
+  const { signIn } = useContext(AuthContext)
+
+  async function handleSignIn(data: any) {
+        await signIn(data)
+  } 
+
   return (
     <BrowserRouter>
       <main>
@@ -23,14 +38,21 @@ function App() {
             id="left-strip"/>
 
           <article id="loginForm">
-            <form action="/login" method="POST">
+            <form onSubmit={handleSubmit(handleSignIn)}>
               <header>
                 <img src={greenLeaf} alt="A green vector leaf" />
                 <h1>Olá! Faça seu login abaixo.</h1>
               </header>
 
-              <FloatingInput type='text' required name="username">Usuário</FloatingInput>
-              <FloatingInput type="password" required name="password">Senha</FloatingInput>
+              <div className="floatingGroup">
+                <input type="text" id="username" {...register("username")} className="floatingInput" placeholder=' '/>
+                <label htmlFor="username" className='floatingLabel'>Usuário</label>
+              </div>
+
+              <div className="floatingGroup">
+                <input type="password" id="password" {...register("password")} className="floatingInput" placeholder=' '/>
+                <label htmlFor="password" className='floatingLabel'>Senha</label>
+              </div>
 
               <div id="checkbox-group">
                 <input type="checkbox" name="rememberme" id="rememberme" />

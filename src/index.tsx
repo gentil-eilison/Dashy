@@ -2,11 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/global.scss';
 import App from './pages/App';
-import DashBoard from './pages/DashBoard'
+import { AuthProvider } from './provider/Auth'
 
 ReactDOM.render(
-  <React.StrictMode>
-      <DashBoard />
-  </React.StrictMode>,
+  <AuthProvider>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
+  </AuthProvider>,
   document.getElementById('root')
 );

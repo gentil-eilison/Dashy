@@ -104,3 +104,49 @@ main {
         text-decoration: underline;
     }
 }
+
+.floatingGroup {
+    margin-top: 0.5rem;
+    // border: 2px solid black;
+
+    .floatingLabel {
+        font-family: 'Source Sans Pro', sans-serif;
+        color: #595F6E;
+        cursor: text;
+
+        position: relative;
+        bottom: 2rem;
+        left: 1rem;
+        transition: 
+            bottom 200ms ease-in
+            font-size 200ms ease-in
+            background-color 200ms ease-in
+            color 200ms ease-in;
+        
+    }
+
+    .floatingInput {
+        width: 100%;
+        
+        border: solid #C7CCD8 1px;
+        border-radius: 0.5rem;
+        padding: 0.3125rem 1.25rem;
+
+        font-family: 'Source Sans Pro', sans-serif;
+        color: #595F6E;
+
+        &:hover, &:focus, &:not(:placeholder-shown) {
+            border: solid 1px #558B2F;
+            outline: none;
+        }
+
+    }
+
+    .floatingInput:focus + .floatingLabel, 
+    .floatingInput:not(:placeholder-shown).floatingInput:not(:focus) + .floatingLabel {
+        bottom: 3.1rem;
+        color: #558B2F;
+        background-color: white;
+        font-size: 0.8rem;
+    }
+}
