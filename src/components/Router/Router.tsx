@@ -4,10 +4,10 @@ import App from '../../pages/App'
 
 const Router = () => {
     return (
-        <Routes>
-            <Route path='/dashboard' element={<DashBoard />}></Route>
-            <Route path='/' element={<App />}></Route>
-        </Routes>
+            <Routes>
+                <Route path='/dashboard' element={<DashBoard />}></Route>
+                <Route path='/' element={<App />}></Route>
+            </Routes>
     )
 }
 

@@ -2,11 +2,8 @@
  * Homepage componenet
  */
 
-import React, { useContext } from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
-
-import FloatingInput from '../components/Input/FloatingInput'
 import { AuthContext } from '../provider/Auth'
 
 import rightGreenPiece from '../assets/images/rightPiece.svg'
@@ -15,22 +12,20 @@ import greenLeaf from '../assets/images/leaf.png'
 
 import '../styles/App.scss'
 
-type SignInData = {
-   username: string 
-   password: string 
-}
-
 function App() {
   const { register, handleSubmit } = useForm()
   const { signIn } = useContext(AuthContext)
 
   async function handleSignIn(data: any) {
+      try {
         await signIn(data)
+      } catch(error) {
+        throw error
+      }
   } 
 
   return (
-    <BrowserRouter>
-      <main>
+      <main id="loginScreen">
           <img 
             src={leftGreenPiece} 
             alt="Green strip positioned at the top-left corner of the screen" 
@@ -38,7 +33,7 @@ function App() {
             id="left-strip"/>
 
           <article id="loginForm">
-            <form onSubmit={handleSubmit(handleSignIn)}>
+            <form onSubmit={handleSubmit(handleSignIn)} action="/dashboard">
               <header>
                 <img src={greenLeaf} alt="A green vector leaf" />
                 <h1>Olá! Faça seu login abaixo.</h1>
@@ -72,7 +67,6 @@ function App() {
             className="float-right"
             id="right-strip"/>
       </main>
-    </BrowserRouter>
   );
 }
 

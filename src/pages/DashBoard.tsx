@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import api from '../services/api'
 
 // Components
@@ -9,6 +9,8 @@ import NavItem from '../components/NavItem/NavItem'
 import SimpleCard from '../components/SimpleCard/SimpleCard'
 import FloatingInput from '../components/Input/FloatingInput'
 import DeliveryTable from '../components/DeliveryTable/DeliveryTable'
+import { AuthContext } from '../provider/Auth' 
+
 
 // Styles
 import '../styles/DashBoard.scss'
@@ -30,6 +32,8 @@ const DashBoard = () => {
     const [deliveriesData, setDeliveriesData] = useState<any>(false)
     const [deliveriesProblems, setDeliveriesProblems] = useState<any>(false)
     const [deliveriesRating, setDeliveriesRating] = useState<any>(false)
+
+    const { logOut } = useContext(AuthContext)
 
     const sumProductsAmount = (categoryAmounts: number[]) => {
         return categoryAmounts.reduce((previousE, e) => previousE + e, 0)
@@ -80,6 +84,31 @@ const DashBoard = () => {
         const percentage = ((problemTypeAmount/totalAmount) * 100)
 
         return percentage
+    }
+
+    const deliveryRatingPercentage = (rating="Excelente" || "Bom" || "Regular" || "Ruim" || "Terrível") => {
+        const totalRatings = deliveriesRating.excellent + deliveriesRating.good + deliveriesRating.regular + deliveriesRating.bad + deliveriesRating.terrible 
+        let percentage = 0
+
+        switch(rating) {
+            case "Excelente":
+                percentage = (deliveriesRating.excellent / totalRatings) * 100
+                break
+            case "Bom":
+                percentage = (deliveriesRating.good / totalRatings) * 100
+                break 
+            case "Regular":
+                percentage = (deliveriesRating.regular / totalRatings) * 100
+                break 
+            case "Ruim":
+                percentage = (deliveriesRating.bad / totalRatings) * 100
+                break
+            case "Terrível":
+                percentage = (deliveriesRating.terrible / totalRatings) * 100
+                break 
+        }
+        
+        return Math.round(percentage) 
     }
 
     useEffect(() => {
@@ -138,6 +167,7 @@ const DashBoard = () => {
                                     alt='Exit platform icon'
                                     src={exitIcon}
                                     path='/'
+                                    handleClick={logOut}
                                 >Sair</NavItem>
                             </li>
                         </ul>
@@ -292,7 +322,13 @@ const DashBoard = () => {
                                 </header>
                                 <PieChart
                                     id='ncp'
-                                    labels={['Excelente', 'Bom', 'Regular', 'Ruim', 'Terrível']}
+                                    labels={[
+                                        `Excelente (${deliveryRatingPercentage("Excelente")}%)`, 
+                                        `Bom (${deliveryRatingPercentage("Bom")}%)`, 
+                                        `Regular (${deliveryRatingPercentage("Regular")}%)`,
+                                        `Ruim (${deliveryRatingPercentage("Ruim")}%)`, 
+                                        `Terrível (${deliveryRatingPercentage("Terrível")}%)`
+                                    ]}
                                     series={[
                                         deliveriesRating.excellent, 
                                         deliveriesRating.good, 

@@ -1,4 +1,5 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import api from '../services/api'
 import Cookie from 'universal-cookie'
 
@@ -10,6 +11,7 @@ type AuthContextType = {
     isAuthenticated: boolean
     user: User | null
     signIn: (data: SignInData) => Promise<void>
+    logOut: () => void
 
 }
 
@@ -22,8 +24,21 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export const AuthProvider = ({ children }: any) => {
     const [user, setUser] = useState<User | null>(null)
+    const navigate = useNavigate()
 
     const isAuthenticated = !!user
+    const authCookie = new Cookie()
+
+    useEffect(() => {
+        const token = authCookie.get("dashyauth.cookie")
+
+        if (token) {
+            navigate("../dashboard", { replace: true })
+        } else {
+            setUser(null) 
+            navigate("/", { replace: true })
+        }
+    }, [])
 
     async function signIn({ username, password }: SignInData) {
         const { token } = await api.post(
@@ -34,17 +49,24 @@ export const AuthProvider = ({ children }: any) => {
             }
         ).then(response => response.data.data)
 
-        const authCookie = new Cookie()
         authCookie.set("dashyauth.cookie", token, {
             maxAge: 60 * 60 * 1 // 1 hour 
         })
 
         setUser({name: username})
+
+        navigate("../dashboard", { replace: true })
+    }
+
+    function logOut() {
+        setUser(null)
+        authCookie.remove("dashyauth.cookie")
+        navigate("/", { replace: true })
     }
 
 
     return (
-        <AuthContext.Provider value={{ user, signIn, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, signIn, isAuthenticated, logOut }}>
             {children}
         </AuthContext.Provider>
     )

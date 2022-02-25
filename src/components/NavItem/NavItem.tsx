@@ -1,19 +1,21 @@
 import style from './NavItem.module.scss'
+import { Link } from 'react-router-dom'
 
 type NavItemData = {
     children: any
     src: any 
     path: string 
     alt: string 
+    handleClick?: () => void
 }
 
 const NavItem = (props: NavItemData) => {
     return (
         <div className={style.navWrapper}>
-            <a href={props.path} className={style.navLink}>
+            <Link to={props.path} className={style.navLink} onClick={props.handleClick}>
                 <img src={props.src} alt={props.alt}/>
                 {props.children}
-            </a>
+            </Link>
         </div>
     )
 }
